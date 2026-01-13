@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"backend-go/backend-desa/config"
+	"backend-go/backend-desa/models"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -33,4 +34,24 @@ func InitDB() {
 	}
 
 	fmt.Println("Database connected successfully!")
+
+	// **Auto Migrate Models**
+	err = DB.AutoMigrate(
+		&models.User{},
+		&models.Role{},
+		&models.Permission{},
+		&models.Category{},
+		&models.Post{},
+		&models.Slider{},
+		&models.Page{},
+		&models.Photo{},
+		&models.Aparatur{},
+		&models.Product{},
+	)
+
+	if err != nil {
+		log.Fatal("Failed to migrate database:", err)
+	}
+
+	fmt.Println("Database migrated successfully!")
 }
